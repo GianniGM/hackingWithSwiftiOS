@@ -49,6 +49,27 @@ class MainViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        //create a DetailViewController (Activity in android)
+        if let viewController = storyboard?.instantiateViewController(
+            withIdentifier: "Detail"
+        ) as? DetailViewController {
+            //if it is found then pass the image
+            viewController.selectedImage = pictures[indexPath.row]
+            
+            //now the view is ready, we can push the controller and launch it
+            navigationController?.pushViewController(viewController, animated: true)
+        }
+    }
     
 }
 
+/*
+ this is the difference between android and iOS, in Android we first fire an activity
+ and once is loaded we pass the Intent as a messaging sistem once it is created
+ in iOS though, we first instantiate the view controller object, we pass the data and then
+ we push it
+*/
