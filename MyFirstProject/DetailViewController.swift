@@ -9,6 +9,8 @@ import UIKit
 
 class DetailViewController: UIViewController {
     @IBOutlet var imageView: UIImageView!
+    
+    //shared variable with MainViewController
     var selectedImage: String?
     
     override func viewDidLoad() {

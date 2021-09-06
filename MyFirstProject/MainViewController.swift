@@ -7,6 +7,13 @@
 
 import UIKit
 
+/*
+ this is the difference between android and iOS, in Android we first fire an activity
+ and once is loaded we pass the Intent as a messaging sistem once it is created
+ in iOS though, we first instantiate the view controller object, we pass the data and then
+ we push it
+*/
+
 //extra functionality for tables UITableViewController than UIViewController
 class MainViewController: UITableViewController {
     
@@ -15,9 +22,12 @@ class MainViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let fileManager = FileManager.default
+        
+        //resourcePath our main bundle always have resource path
         let path = Bundle.main.resourcePath!
-        let contentOfResource = try! fileManager
-            .contentsOfDirectory(atPath: path)
+        
+        //it's right that it's crashes because we have to read something here
+        let contentOfResource = try! fileManager.contentsOfDirectory(atPath: path)
         
         for item in contentOfResource {
             if item.hasPrefix("nssl") {
@@ -26,7 +36,6 @@ class MainViewController: UITableViewController {
         }
         
     }
-    
     
     override func tableView(
         _ tableView: UITableView,
@@ -39,21 +48,36 @@ class MainViewController: UITableViewController {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
+        //indexPath is the row number
         
         //dequeueReusableCell is a recycleview
         let cell = tableView.dequeueReusableCell(
-            withIdentifier: "Picture",
+            withIdentifier: "PictureName",
             for: indexPath
         )
-        cell.textLabel?.text = pictures[indexPath.row]
+        cell.textLabel?
+            .text = "Picture \(indexPath.row) is \(pictures[indexPath.row])"
         return cell
     }
     
+    
+    //handle selections of the item
     override func tableView(
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
-        //create a DetailViewController (Activity in android)
+        /* on iOS
+         1. we create (instantiate) the viewController first
+         2. we pass the data we need in the following View
+         3. we show up the everything in the navigation controller
+         */
+        
+        /* on Android
+         1. we launch an intent, it will provide to create the Activity
+         2. we create the UI
+         3. we fetch the data passed from the previous activity
+         */
+        
         if let viewController = storyboard?.instantiateViewController(
             withIdentifier: "Detail"
         ) as? DetailViewController {
@@ -66,10 +90,3 @@ class MainViewController: UITableViewController {
     }
     
 }
-
-/*
- this is the difference between android and iOS, in Android we first fire an activity
- and once is loaded we pass the Intent as a messaging sistem once it is created
- in iOS though, we first instantiate the view controller object, we pass the data and then
- we push it
-*/
