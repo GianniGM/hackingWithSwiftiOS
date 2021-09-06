@@ -21,6 +21,10 @@ class MainViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = "Storm view"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
         let fileManager = FileManager.default
         
         //resourcePath our main bundle always have resource path
