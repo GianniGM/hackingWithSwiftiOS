@@ -12,12 +12,12 @@ import UIKit
  and once is loaded we pass the Intent as a messaging sistem once it is created
  in iOS though, we first instantiate the view controller object, we pass the data and then
  we push it
-*/
+ */
 
 //extra functionality for tables UITableViewController than UIViewController
 class MainViewController: UITableViewController {
     
-    var pictures = [String]()
+    private var pictures = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,14 +31,16 @@ class MainViewController: UITableViewController {
         let path = Bundle.main.resourcePath!
         
         //it's right that it's crashes because we have to read something here
-        let contentOfResource = try! fileManager.contentsOfDirectory(atPath: path)
+        let contentOfResource = try! fileManager
+            .contentsOfDirectory(atPath: path)
         
+        var temporaryPictures = [String]()
         for item in contentOfResource {
             if item.hasPrefix("nssl") {
-                pictures.append(item)
+                temporaryPictures.append(item)
             }
         }
-        
+        pictures = temporaryPictures.sorted()
     }
     
     override func tableView(
@@ -85,11 +87,18 @@ class MainViewController: UITableViewController {
         if let viewController = storyboard?.instantiateViewController(
             withIdentifier: "Detail"
         ) as? DetailViewController {
+            
             //if it is found then pass the image
-            viewController.selectedImage = pictures[indexPath.row]
+            viewController.selectedImage = SelectedImage(
+                name: pictures[indexPath.row],
+                number: indexPath.row,
+                of: pictures.count
+            )
             
             //now the view is ready, we can push the controller and launch it
-            navigationController?.pushViewController(viewController, animated: true)
+            navigationController?.pushViewController(
+                viewController, animated: true
+            )
         }
     }
     

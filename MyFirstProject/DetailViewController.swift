@@ -7,21 +7,37 @@
 
 import UIKit
 
+class SelectedImage {
+    let name: String
+    let index: Int
+    let totalPictures: Int
+    
+    init(name: String, number index: Int, of totalPictures: Int) {
+        self.name = name
+        self.index = index
+        self.totalPictures = totalPictures
+    }
+    
+    func printTitle() -> String{
+       return "\(name): picture \(index) over \(totalPictures)"
+    }
+}
+
 class DetailViewController: UIViewController {
     @IBOutlet var imageView: UIImageView!
     
     //shared variable with MainViewController
-    var selectedImage: String?
+    var selectedImage: SelectedImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = selectedImage
+        title = selectedImage?.printTitle()
         
         navigationItem.largeTitleDisplayMode = .never
         navigationController?.navigationBar.prefersLargeTitles = true
 
         if let imageToLoad = selectedImage {
-            imageView.image = UIImage(named: imageToLoad)
+            imageView.image = UIImage(named: imageToLoad.name)
         }
     }
     
