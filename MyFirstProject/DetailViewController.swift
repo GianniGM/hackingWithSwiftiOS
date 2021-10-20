@@ -19,7 +19,7 @@ class SelectedImage {
     }
     
     func printTitle() -> String{
-       return "\(name): picture \(index) over \(totalPictures)"
+       return "\(name): picture \(index+1) over \(totalPictures)"
     }
 }
 
